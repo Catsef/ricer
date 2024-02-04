@@ -13,17 +13,14 @@ public class autoComplete implements TabCompleter {
     @Override
     public List<String> onTabComplete(CommandSender commandSender, Command command, String s, String[] strings) {
         List<String> autocompleteOptions = new ArrayList<>();
-        if (command.getName().equalsIgnoreCase("item") && strings.length == 0) {
-            if (commandSender instanceof Player) {
-                Player player = (Player) commandSender;
-                autocompleteOptions.add("lifter");
-                autocompleteOptions.add("luigi-flashlight");
-                autocompleteOptions.add("punch-combo");
-                autocompleteOptions.add("punch");
-                autocompleteOptions.add("totem-of-dying");
-                autocompleteOptions.add("cursed-helmet");
-
-            }
+        if (strings.length == 1) {
+            autocompleteOptions.add("lifter");
+            autocompleteOptions.add("luigi-flashlight");
+            autocompleteOptions.add("punch-combo");
+            autocompleteOptions.add("punch");
+            autocompleteOptions.add("totem-of-dying");
+            autocompleteOptions.add("cursed-helmet");
+            return autocompleteOptions;
         }
 
         return autocompleteOptions;

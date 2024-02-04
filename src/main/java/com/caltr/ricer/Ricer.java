@@ -111,6 +111,7 @@ public final class Ricer extends JavaPlugin implements Listener {
         // Plugin startup logic
         getServer().getPluginManager().registerEvents(this, this);
         this.getCommand("item").setExecutor(new itemCommand());
+        this.getCommand("item").setTabCompleter(new autoComplete());
 
         protocolManager = ProtocolLibrary.getProtocolManager();
 

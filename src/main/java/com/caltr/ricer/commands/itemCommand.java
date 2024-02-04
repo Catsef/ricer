@@ -14,33 +14,35 @@ public class itemCommand implements CommandExecutor {
         if (commandSender instanceof Player) {
             Player player = (Player) commandSender;
 
-            ItemStack toSend;
+            ItemStack toSend = new ItemStack(Material.AIR);
 
             switch (strings[0]) {
                 case "lifter": {
                     toSend = Ricer.Lifter(1);
+                    break;
                 }
                 case "luigi-flashlight": {
                     toSend = Ricer.LuigiLight(1);
+                    break;
                 }
                 case "punch-combo": {
                     toSend = Ricer.PunchCombo(1);
+                    break;
                 }
                 case "punch": {
                     toSend = Ricer.Punch(1);
+                    break;
                 }
                 case "totem-of-dying": {
                     toSend = Ricer.TOD(1);
+                    break;
                 }
                 case "cursed-helmet": {
                     toSend = Ricer.ZeusHelmet(1);
+                    break;
                 }
-                default: {
-                    toSend = new ItemStack(Material.AIR);
-                }
-
-                player.getInventory().addItem(toSend);
             }
+            player.getInventory().addItem(toSend);
 
             return true;
         } else {
