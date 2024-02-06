@@ -37,7 +37,7 @@ import java.lang.reflect.Array;
 import java.util.*;
 
 public final class Ricer extends JavaPlugin implements Listener {
-    private ProtocolManager protocolManager;
+    private static ProtocolManager protocolManager;
 
     private helmetTask l;
     private FlashLight f;
@@ -346,6 +346,13 @@ public final class Ricer extends JavaPlugin implements Listener {
         }
 
 
+    }
+
+    public static void hurtEffect(Player player, float yaw) {
+        PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.HURT_ANIMATION);
+        packet.getIntegers().write(0, player.getEntityId());
+        packet.getFloat().write(0, yaw);
+        protocolManager.sendServerPacket(player, packet);
     }
 
     @EventHandler
