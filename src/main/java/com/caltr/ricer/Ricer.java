@@ -41,6 +41,7 @@ public final class Ricer extends JavaPlugin implements Listener {
 
     private helmetTask l;
     private FlashLight f;
+    public static Random rd;
 
     public static Plugin plugin;
 
