@@ -14,6 +14,7 @@ public class InfestedCrawlers extends BukkitRunnable {
        Plugin plugin = Ricer.plugin;
        for (Player p: plugin.getServer().getOnlinePlayers()) {
            if (checkers.isPlayerStandingOnUltraInfestedBlock(p)) {
+               System.out.println("wtf i found a super infestation");
                effects.continuousHurtEffect(p, 1, plugin);
            }
        }

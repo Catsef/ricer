@@ -1,5 +1,6 @@
 package com.caltr.ricer.commands;
 
+import com.caltr.ricer.hashmaps.superInfestedHashMap;
 import com.caltr.ricer.helpers.items;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -44,6 +45,9 @@ public class itemCommand implements CommandExecutor {
                 case "shake.test.item0": {
                     toSend = items.shakeMyBumBum(1);
                     break;
+                }
+                case "demo-shaker": {
+                    player.sendMessage(String.valueOf(superInfestedHashMap.blocks));
                 }
             }
             player.getInventory().addItem(toSend);
