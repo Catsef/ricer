@@ -1,6 +1,6 @@
 package com.caltr.ricer.helpers;
 
-import com.caltr.ricer.armorCompensation;
+import com.caltr.ricer.utilclass.armorCompensation;
 import org.bukkit.Material;
 import org.bukkit.entity.Player;
 import org.bukkit.inventory.Inventory;

@@ -8,6 +8,7 @@ import com.caltr.ricer.helpers.spawners;
 import com.caltr.ricer.helpers.utilities;
 import com.caltr.ricer.tasks.FlashLight;
 import com.caltr.ricer.tasks.helmetTask;
+import com.caltr.ricer.utilclass.armorCompensation;
 import com.comphenix.protocol.PacketType;
 import com.comphenix.protocol.ProtocolLibrary;
 import com.comphenix.protocol.ProtocolManager;
@@ -116,9 +117,7 @@ public final class Ricer extends JavaPlugin implements Listener {
                 player.getInventory().getItemInMainHand().setAmount(0);
             }
             if (player.getInventory().getItemInMainHand().isSimilar(items.shakeMyBumBum(1))) {
-                for (int i = 0; i < 20; i++) {
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> effects.hurtEffect(player, rd.nextFloat(0, 360)), i*2);
-                }
+                effects.continuousHurtEffect(player, 20, this);
             }
 
             if (!player.getInventory().getItemInMainHand().isSimilar(items.Lifter(1))) {
