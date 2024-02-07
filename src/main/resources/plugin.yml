@@ -21,3 +21,8 @@ commands:
     usage: /hurt-shake
     permissions: ricer.df
     permission-message: You don't have Ricer.DF (default OP) permissions to run this command!
+  super-infest:
+    description: super infest - super infests the block below the player
+    usage: /super-infest
+    permissions: ricer.df
+    permission-message: You don't have Ricer.DF (default OP) permissions to run this command!

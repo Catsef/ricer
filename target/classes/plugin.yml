@@ -1,5 +1,5 @@
 name: ricer
-version: '7.3'
+version: '7.4'
 main: com.caltr.ricer.Ricer
 api-version: '1.20'
 depend: [ProtocolLib]
