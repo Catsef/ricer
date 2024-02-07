@@ -1,6 +1,7 @@
 package com.caltr.ricer.tasks;
 
 import com.caltr.ricer.Ricer;
+import com.caltr.ricer.helpers.effects;
 import com.caltr.ricer.helpers.items;
 import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
@@ -15,7 +16,7 @@ public class FlashLight extends BukkitRunnable {
         for (Player p : plugin.getServer().getOnlinePlayers()) {
 
             if (p.getInventory().getItemInMainHand().isSimilar(items.LuigiLight(1))) {
-                Ricer.Flash(p);
+                effects.Flash(p);
             }
 
 

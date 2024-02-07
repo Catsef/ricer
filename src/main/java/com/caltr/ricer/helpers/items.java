@@ -1,6 +1,5 @@
 package com.caltr.ricer.helpers;
 
-import com.caltr.ricer.Ricer;
 import org.bukkit.ChatColor;
 import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
@@ -17,7 +16,7 @@ public class items {
         ItemMeta LIM = LIS.getItemMeta();
         LIM.setDisplayName(ChatColor.AQUA + "Lifter " + ChatColor.DARK_GRAY + ChatColor.ITALIC + "[A+]");
         List<String> a = new ArrayList<>();
-        a.add(ChatColor.MAGIC + "x" + Ricer.asCol("#78a2f0") + " The combined power of Titan Atlas's strength contained into a orb. " + ChatColor.MAGIC + "x");
+        a.add(ChatColor.MAGIC + "x" + utilities.asCol("#78a2f0") + " The combined power of Titan Atlas's strength contained into a orb. " + ChatColor.MAGIC + "x");
         a.add(ChatColor.DARK_GRAY + "" + ChatColor.ITALIC + "rices:lifter");
         LIM.setLore(a);
         LIS.setItemMeta(LIM);
@@ -27,7 +26,7 @@ public class items {
     public static ItemStack ZeusHelmet(int amt) {
         ItemStack ZIS = new ItemStack(Material.IRON_HELMET, amt);
         ItemMeta ZIM = ZIS.getItemMeta();
-        ZIM.setDisplayName(Ricer.asCol("#b3f0f5") + "Enlightenment " + ChatColor.DARK_GRAY + "[C+]");
+        ZIM.setDisplayName(utilities.asCol("#b3f0f5") + "Enlightenment " + ChatColor.DARK_GRAY + "[C+]");
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.AQUA + "Once owned by Prometheus, this helmet is cursed by the one and the only Zeus.");
         lore.add(ChatColor.AQUA + "Lightning will strike the player which wears this once every two seconds");
@@ -52,7 +51,7 @@ public class items {
     public static ItemStack LuigiLight(int amt) {
         ItemStack a = new ItemStack(Material.SPYGLASS, amt);
         ItemMeta b = a.getItemMeta();
-        b.setDisplayName(Ricer.asCol("#00ff88") + "Luigi's Flashlight " + ChatColor.DARK_GRAY + "[B+]");
+        b.setDisplayName(utilities.asCol("#00ff88") + "Luigi's Flashlight " + ChatColor.DARK_GRAY + "[B+]");
         List<String> lore = new ArrayList<>();
         lore.add(ChatColor.AQUA + "Found on the floor after an exhausting journey, ");
         lore.add(ChatColor.AQUA + "This item will reveal ghosts.");

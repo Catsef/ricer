@@ -1,6 +1,7 @@
 package com.caltr.ricer.commands;
 
 import com.caltr.ricer.Ricer;
+import com.caltr.ricer.helpers.effects;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
@@ -14,7 +15,7 @@ public class hurtShakeEffectCommand implements CommandExecutor {
 
         Player player = (Player) commandSender;
 
-        Ricer.hurtEffect(player, Ricer.rd.nextFloat(3, 30));
+        effects.hurtEffect(player, Ricer.rd.nextFloat(3, 30));
 
         return true;
     }
