@@ -1,6 +1,6 @@
 package com.caltr.ricer.commands;
 
-import com.caltr.ricer.Ricer;
+import com.caltr.ricer.helpers.items;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -18,31 +18,31 @@ public class itemCommand implements CommandExecutor {
 
             switch (strings[0]) {
                 case "lifter": {
-                    toSend = Ricer.Lifter(1);
+                    toSend = items.Lifter(1);
                     break;
                 }
                 case "luigi-flashlight": {
-                    toSend = Ricer.LuigiLight(1);
+                    toSend = items.LuigiLight(1);
                     break;
                 }
                 case "punch-combo": {
-                    toSend = Ricer.PunchCombo(1);
+                    toSend = items.PunchCombo(1);
                     break;
                 }
                 case "punch": {
-                    toSend = Ricer.Punch(1);
+                    toSend = items.Punch(1);
                     break;
                 }
                 case "totem-of-dying": {
-                    toSend = Ricer.TOD(1);
+                    toSend = items.TOD(1);
                     break;
                 }
                 case "cursed-helmet": {
-                    toSend = Ricer.ZeusHelmet(1);
+                    toSend = items.ZeusHelmet(1);
                     break;
                 }
                 case "shake.test.item0": {
-                    toSend = Ricer.shakeMyBumBum(1);
+                    toSend = items.shakeMyBumBum(1);
                     break;
                 }
             }

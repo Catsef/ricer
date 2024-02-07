@@ -1,6 +1,7 @@
 package com.caltr.ricer.tasks;
 
 import com.caltr.ricer.Ricer;
+import com.caltr.ricer.helpers.items;
 import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.entity.EntityType;
@@ -9,8 +10,6 @@ import org.bukkit.inventory.EquipmentSlot;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.scheduler.BukkitRunnable;
 
-import java.util.Objects;
-
 public class helmetTask extends BukkitRunnable {
 
     @Override
@@ -18,7 +17,7 @@ public class helmetTask extends BukkitRunnable {
         Plugin plugin = Ricer.plugin;
         for (Player p : plugin.getServer().getOnlinePlayers()) {
             if (p.getInventory().getItem(EquipmentSlot.HEAD) == null) {return;}
-            if (!p.getInventory().getItem(EquipmentSlot.HEAD).isSimilar(Ricer.ZeusHelmet(1))) {
+            if (!p.getInventory().getItem(EquipmentSlot.HEAD).isSimilar(items.ZeusHelmet(1))) {
                 return;
             } else {
                 Location loc = p.getLocation();

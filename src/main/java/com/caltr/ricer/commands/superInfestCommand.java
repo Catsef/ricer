@@ -1,6 +1,7 @@
 package com.caltr.ricer.commands;
 
 import com.caltr.ricer.Ricer;
+import com.caltr.ricer.hashmaps.superInfestedHashMap;
 import org.bukkit.block.Block;
 import org.bukkit.block.BlockFace;
 import org.bukkit.command.Command;
@@ -16,7 +17,7 @@ public class superInfestCommand implements CommandExecutor {
 
         Player player = (Player) commandSender;
         Block block = player.getLocation().getBlock().getRelative(BlockFace.DOWN);
-        Ricer.blocks.add(block);
+        superInfestedHashMap.blocks.add(block);
 
 
         return true;

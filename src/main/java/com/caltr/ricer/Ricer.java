@@ -2,6 +2,7 @@ package com.caltr.ricer;
 
 import com.caltr.ricer.commands.*;
 import com.caltr.ricer.hashmaps.lifterHashMap;
+import com.caltr.ricer.helpers.items;
 import com.caltr.ricer.tasks.FlashLight;
 import com.caltr.ricer.tasks.helmetTask;
 import com.comphenix.protocol.PacketType;
@@ -11,7 +12,6 @@ import com.comphenix.protocol.events.PacketContainer;
 import com.comphenix.protocol.wrappers.BlockPosition;
 import org.bukkit.*;
 import org.bukkit.block.Block;
-import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.ArmorStand;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -24,17 +24,16 @@ import org.bukkit.event.player.PlayerDropItemEvent;
 import org.bukkit.event.player.PlayerInteractEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.inventory.Inventory;
-import org.bukkit.inventory.ItemFlag;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.util.Vector;
 
-import java.lang.reflect.Array;
 import java.util.*;
+
+import static com.caltr.ricer.hashmaps.superInfestedHashMap.blocks;
 
 public final class Ricer extends JavaPlugin implements Listener {
     private static ProtocolManager protocolManager;
@@ -44,7 +43,6 @@ public final class Ricer extends JavaPlugin implements Listener {
     public static Random rd;
 
     public static Plugin plugin;
-    public static ArrayList<Block> blocks = new ArrayList<>();
 
     public static double absoluteDamage (Player player, double damage, boolean ignoreArmor) {
 
@@ -117,10 +115,12 @@ public final class Ricer extends JavaPlugin implements Listener {
             restoreBlock();
         }
 
-        this.getCommand("item").setExecutor(new itemCommand());
-        this.getCommand("item").setTabCompleter(new autoComplete());
+        Objects.requireNonNull(this.getCommand("item")).setExecutor(new itemCommand());
+        Objects.requireNonNull(this.getCommand("item")).setTabCompleter(new autoComplete());
 
-        this.getCommand("hurt-shake").setExecutor(new hurtShakeEffectCommand());
+        Objects.requireNonNull(this.getCommand("hurt-shake")).setExecutor(new hurtShakeEffectCommand());
+
+        Objects.requireNonNull(this.getCommand("super-infest")).setExecutor(new superInfestCommand());
 
         protocolManager = ProtocolLibrary.getProtocolManager();
 
@@ -143,7 +143,7 @@ public final class Ricer extends JavaPlugin implements Listener {
     }
 
     public void restoreBlock () {
-        this.getConfig().getConfigurationSection("block").getKeys(false).forEach(block -> {
+        Objects.requireNonNull(this.getConfig().getConfigurationSection("block")).getKeys(false).forEach(block -> {
             Block i = (Block) this.getConfig().get("block." + block);
             blocks.add(i);
         });
@@ -161,7 +161,7 @@ public final class Ricer extends JavaPlugin implements Listener {
 
     public static void generateFlyingLabel (Location location, String content, Plugin plugin) {
 
-        Entity entity = location.getWorld().spawnEntity(location, EntityType.ARMOR_STAND);
+        Entity entity = Objects.requireNonNull(location.getWorld()).spawnEntity(location, EntityType.ARMOR_STAND);
         ArmorStand armorStand = (ArmorStand) entity;
         armorStand.setVisible(false);
         armorStand.setCustomName(content);
@@ -171,12 +171,7 @@ public final class Ricer extends JavaPlugin implements Listener {
         armorStand.setGravity(false);
         location.getWorld().playSound(location, Sound.BLOCK_AMETHYST_BLOCK_PLACE, SoundCategory.PLAYERS, 5, 1);
         armorStand.setVelocity(armorStand.getVelocity().add(new Vector(0d, 1d, 0d)));
-        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-            @Override
-            public void run() {
-                armorStand.remove();
-            }
-        }, 10);
+        Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, armorStand::remove, 10);
 
     }
 
@@ -198,107 +193,19 @@ public final class Ricer extends JavaPlugin implements Listener {
         }
     }
 
-    public static ItemStack Lifter(int amt) {
-        ItemStack LIS = new ItemStack(Material.ENDER_EYE, amt);
-        ItemMeta LIM = LIS.getItemMeta();
-        LIM.setDisplayName(ChatColor.AQUA + "Lifter " + ChatColor.DARK_GRAY + ChatColor.ITALIC + "[A+]");
-        List<String> a = new ArrayList<>();
-        a.add(ChatColor.MAGIC + "x" + asCol("#78a2f0") + " The combined power of Titan Atlas's strength contained into a orb. " + ChatColor.MAGIC + "x");
-        a.add(ChatColor.DARK_GRAY + "" + ChatColor.ITALIC + "rices:lifter");
-        LIM.setLore(a);
-        LIS.setItemMeta(LIM);
-        return LIS;
-    }
-
-    public static ItemStack ZeusHelmet(int amt) {
-        ItemStack ZIS = new ItemStack(Material.IRON_HELMET, amt);
-        ItemMeta ZIM = ZIS.getItemMeta();
-        ZIM.setDisplayName(asCol("#b3f0f5") + "Enlightenment " + ChatColor.DARK_GRAY + "[C+]");
-        List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.AQUA + "Once owned by Prometheus, this helmet is cursed by the one and the only Zeus.");
-        lore.add(ChatColor.AQUA + "Lightning will strike the player which wears this once every two seconds");
-        lore.add(ChatColor.LIGHT_PURPLE + "Zeus' Lightning Curse II");
-        lore.add(ChatColor.DARK_GRAY + "rices:lightning_helmet");
-        ZIM.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        ZIM.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-        ZIM.setUnbreakable(true);
-        ZIM.setLore(lore);
-        ZIS.setItemMeta(ZIM);
-        return ZIS;
-    }
-
-    public static ItemStack TOD (int amt) {
-        ItemStack a = new ItemStack(Material.TOTEM_OF_UNDYING);
-        ItemMeta b = a.getItemMeta();
-        b.setDisplayName(ChatColor.WHITE + "totem of dying [prototype]");
-        a.setItemMeta(b);
-        return a;
-    }
-
-    public static ItemStack LuigiLight(int amt) {
-        ItemStack a = new ItemStack(Material.SPYGLASS, amt);
-        ItemMeta b = a.getItemMeta();
-        b.setDisplayName(asCol("#00ff88") + "Luigi's Flashlight " + ChatColor.DARK_GRAY + "[B+]");
-        List<String> lore = new ArrayList<>();
-        lore.add(ChatColor.AQUA + "Found on the floor after an exhausting journey, ");
-        lore.add(ChatColor.AQUA + "This item will reveal ghosts.");
-        lore.add(ChatColor.DARK_AQUA + "Invisibility Remover V");
-        lore.add(ChatColor.DARK_AQUA + "Burn II");
-        lore.add(ChatColor.DARK_AQUA + "Night Vision I");
-        lore.add(ChatColor.DARK_AQUA + "Player Glower I");
-        lore.add(ChatColor.DARK_GRAY + "rices:luigi_flashlight");
-        b.setLore(lore);
-        b.setUnbreakable(true);
-        b.addEnchant(Enchantment.FIRE_ASPECT, 2, true);
-        b.addItemFlags(ItemFlag.HIDE_UNBREAKABLE);
-        b.addItemFlags(ItemFlag.HIDE_ENCHANTS);
-        a.setItemMeta(b);
-
-        return a;
-    }
-
     public static void punchComboSpawner(int howMany, Player player, Plugin plugin, double min, double max) {
         Random random = new Random();
         for (int i = 0; i < howMany; i++) {
-            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, new Runnable() {
-                @Override
-                public void run() {
-                    double pDamage = Math.round(random.nextDouble(min, max));
-                    pDamage = Ricer.absoluteDamage(player, pDamage, false);
-                    player.damage(pDamage);
-                    player.setNoDamageTicks(0);
-                    generateFlyingLabel(player.getLocation().add(random.nextDouble(0, 1), 0, random.nextDouble(0, 1)), ChatColor.GOLD + Double.toString(pDamage), plugin);
-                    Vector a = player.getVelocity().add(new Vector(0d, 0.3d, 0d));
-                    player.setVelocity(a);
-                }
-            }, i*2);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(plugin, () -> {
+                double pDamage = Math.round(random.nextDouble(min, max));
+                pDamage = Ricer.absoluteDamage(player, pDamage, false);
+                player.damage(pDamage);
+                player.setNoDamageTicks(0);
+                generateFlyingLabel(player.getLocation().add(random.nextDouble(0, 1), 0, random.nextDouble(0, 1)), ChatColor.GOLD + Double.toString(pDamage), plugin);
+                Vector a = player.getVelocity().add(new Vector(0d, 0.3d, 0d));
+                player.setVelocity(a);
+            }, i * 2L);
         }
-    }
-
-    public static ItemStack Punch(int amt) {
-        ItemStack a = new ItemStack(Material.BRICK);
-        ItemMeta b = a.getItemMeta();
-        b.setDisplayName(ChatColor.WHITE + "Punch [D+]");
-        b.setUnbreakable(true);
-        a.setItemMeta(b);
-        return a;
-    }
-
-    public static ItemStack shakeMyBumBum(int amt) {
-        ItemStack a = new ItemStack(Material.STICK);
-        ItemMeta b = a.getItemMeta();
-        b.setDisplayName(ChatColor.WHITE + "Magical Shaking Wand");
-        a.setItemMeta(b);
-        return a;
-    }
-
-    public static ItemStack PunchCombo(int amt) {
-        ItemStack a = new ItemStack(Material.NETHER_BRICK);
-        ItemMeta b = a.getItemMeta();
-        b.setDisplayName(ChatColor.WHITE + "Combo Punch [B+]");
-        b.setUnbreakable(true);
-        a.setItemMeta(b);
-        return a;
     }
 
     @EventHandler
@@ -317,7 +224,7 @@ public final class Ricer extends JavaPlugin implements Listener {
         Player player = event.getPlayer();
         
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
-            if (player.getInventory().getItemInMainHand().isSimilar(TOD(1))) {
+            if (player.getInventory().getItemInMainHand().isSimilar(items.TOD(1))) {
                 int len = plugin.getServer().getOnlinePlayers().size();
                 Random random = new Random();
                 int spec = random.nextInt(len);
@@ -326,18 +233,13 @@ public final class Ricer extends JavaPlugin implements Listener {
                 p.damage(p.getHealthScale() / 2);
                 player.getInventory().getItemInMainHand().setAmount(0);
             }
-            if (player.getInventory().getItemInMainHand().isSimilar(shakeMyBumBum(1))) {
+            if (player.getInventory().getItemInMainHand().isSimilar(items.shakeMyBumBum(1))) {
                 for (int i = 0; i < 20; i++) {
-                    Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-                        @Override
-                        public void run() {
-                            hurtEffect(player, rd.nextFloat(0, 360));
-                        }
-                    }, i*2);
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> hurtEffect(player, rd.nextFloat(0, 360)), i*2);
                 }
             }
 
-            if (!player.getInventory().getItemInMainHand().isSimilar(Lifter(1))) {
+            if (!player.getInventory().getItemInMainHand().isSimilar(items.Lifter(1))) {
                 return;
             }
             event.setCancelled(true);
@@ -348,6 +250,7 @@ public final class Ricer extends JavaPlugin implements Listener {
             Block block = event.getClickedBlock();
             int speed = 5;
 
+            assert block != null;
             if (block.getType() == Material.BEDROCK || block.getType() == Material.OBSIDIAN) {
                 speed += 15;
             }
@@ -359,26 +262,21 @@ public final class Ricer extends JavaPlugin implements Listener {
             }
             for (int i = 0; i < 9; i++) {
                 int finalI = i;
-                Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-                    public void run() {
+                Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
 
-                        PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.BLOCK_BREAK_ANIMATION);
-                        packet.getBlockPositionModifier().write(0, new BlockPosition(block.getX(), block.getY(), block.getZ()));
-                        packet.getIntegers().write(0, finalI);
-                        packet.getIntegers().write(1, finalI);
-                        protocolManager.sendServerPacket(player, packet);
-                        lifterHashMap.setIsMiningOrNot(player.getUniqueId(), true);
+                    PacketContainer packet = protocolManager.createPacket(PacketType.Play.Server.BLOCK_BREAK_ANIMATION);
+                    packet.getBlockPositionModifier().write(0, new BlockPosition(block.getX(), block.getY(), block.getZ()));
+                    packet.getIntegers().write(0, finalI);
+                    packet.getIntegers().write(1, finalI);
+                    protocolManager.sendServerPacket(player, packet);
+                    lifterHashMap.setIsMiningOrNot(player.getUniqueId(), true);
 
-                    }
-                }, finalI * speed);
+                }, (long) finalI * speed);
             }
-            Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
-                @Override
-                public void run() {
-                    block.breakNaturally();
-                    lifterHashMap.setIsMiningOrNot(player.getUniqueId(), false);
-                }
-            }, 9 * speed + speed);
+            Bukkit.getScheduler().scheduleSyncDelayedTask(this, () -> {
+                block.breakNaturally();
+                lifterHashMap.setIsMiningOrNot(player.getUniqueId(), false);
+            }, 9L * speed + speed);
 
         }
 
@@ -403,7 +301,7 @@ public final class Ricer extends JavaPlugin implements Listener {
                 event.setCancelled(true );
             }
 
-            if (damager.getInventory().getItemInMainHand().isSimilar(Punch(1))) {
+            if (damager.getInventory().getItemInMainHand().isSimilar(items.Punch(1))) {
 
                 Random random = new Random();
                 double x = damaged.getLocation().getX();
@@ -423,7 +321,7 @@ public final class Ricer extends JavaPlugin implements Listener {
                 event.setDamage(dmg);
                 generateFlyingLabel(loc, ChatColor.GOLD + Double.toString(dmg), this);
                 damager.setCooldown(Material.BRICK, 10);
-            } else if (damager.getInventory().getItemInMainHand().isSimilar(PunchCombo(1))) {
+            } else if (damager.getInventory().getItemInMainHand().isSimilar(items.PunchCombo(1))) {
                 punchComboSpawner(10, damaged, this, 0, 3);
                 damager.setCooldown(Material.NETHER_BRICK, 200);
             }
