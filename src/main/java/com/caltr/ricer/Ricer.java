@@ -7,6 +7,7 @@ import com.caltr.ricer.helpers.items;
 import com.caltr.ricer.helpers.spawners;
 import com.caltr.ricer.helpers.utilities;
 import com.caltr.ricer.tasks.FlashLight;
+import com.caltr.ricer.tasks.InfestedCrawlers;
 import com.caltr.ricer.tasks.helmetTask;
 import com.caltr.ricer.utilclass.armorCompensation;
 import com.comphenix.protocol.PacketType;
@@ -67,6 +68,9 @@ public final class Ricer extends JavaPlugin implements Listener {
 
         f = new FlashLight();
         f.runTaskTimer(plugin, 0, 1);
+
+        InfestedCrawlers ic = new InfestedCrawlers();
+        ic.runTaskTimer(plugin, 0, 1);
 
         armorCompensation.setupArmorValues();
     }
