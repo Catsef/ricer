@@ -110,9 +110,13 @@ public final class Ricer extends JavaPlugin implements Listener {
     @Override
     public void onEnable() {
         // Plugin startup logic
+        rd = new Random();
         getServer().getPluginManager().registerEvents(this, this);
+
         this.getCommand("item").setExecutor(new itemCommand());
         this.getCommand("item").setTabCompleter(new autoComplete());
+
+        this.getCommand("hurt-shake").setExecutor(new hurtShakeEffectCommand());
 
         protocolManager = ProtocolLibrary.getProtocolManager();
 
@@ -261,6 +265,14 @@ public final class Ricer extends JavaPlugin implements Listener {
         return a;
     }
 
+    public static ItemStack shakeMyBumBum(int amt) {
+        ItemStack a = new ItemStack(Material.STICK);
+        ItemMeta b = a.getItemMeta();
+        b.setDisplayName(ChatColor.WHITE + "Magical Shaking Wand");
+        a.setItemMeta(b);
+        return a;
+    }
+
     public static ItemStack PunchCombo(int amt) {
         ItemStack a = new ItemStack(Material.NETHER_BRICK);
         ItemMeta b = a.getItemMeta();
@@ -286,11 +298,6 @@ public final class Ricer extends JavaPlugin implements Listener {
         Player player = event.getPlayer();
         
         if (event.getAction() == Action.RIGHT_CLICK_BLOCK || event.getAction() == Action.RIGHT_CLICK_AIR) {
-            if (player.getName().equals("tmnu")) {
-                if (Objects.equals(event.getItem(), new ItemStack(Material.STICK))) {
-                    player.getInventory().addItem(new ItemStack(Material.REDSTONE, 1), new ItemStack(Material.IRON_INGOT, 1), new ItemStack(Material.EMERALD_BLOCK, 1), new ItemStack(Material.DIAMOND, 1));
-                }
-            }
             if (player.getInventory().getItemInMainHand().isSimilar(TOD(1))) {
                 int len = plugin.getServer().getOnlinePlayers().size();
                 Random random = new Random();
@@ -299,6 +306,16 @@ public final class Ricer extends JavaPlugin implements Listener {
                 Player p = (Player) a[spec];
                 p.damage(p.getHealthScale() / 2);
                 player.getInventory().getItemInMainHand().setAmount(0);
+            }
+            if (player.getInventory().getItemInMainHand().isSimilar(shakeMyBumBum(1))) {
+                for (int i = 0; i < 20; i++) {
+                    Bukkit.getScheduler().scheduleSyncDelayedTask(this, new Runnable() {
+                        @Override
+                        public void run() {
+                            hurtEffect(player, rd.nextFloat(0, 360));
+                        }
+                    }, i*2);
+                }
             }
 
             if (!player.getInventory().getItemInMainHand().isSimilar(Lifter(1))) {

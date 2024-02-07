@@ -20,6 +20,7 @@ public class autoComplete implements TabCompleter {
             autocompleteOptions.add("punch");
             autocompleteOptions.add("totem-of-dying");
             autocompleteOptions.add("cursed-helmet");
+            autocompleteOptions.add("shake.test.item0");
             return autocompleteOptions;
         }
 

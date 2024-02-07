@@ -41,6 +41,10 @@ public class itemCommand implements CommandExecutor {
                     toSend = Ricer.ZeusHelmet(1);
                     break;
                 }
+                case "shake.test.item0": {
+                    toSend = Ricer.shakeMyBumBum(1);
+                    break;
+                }
             }
             player.getInventory().addItem(toSend);
 

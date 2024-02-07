@@ -1,5 +1,5 @@
 name: ricer
-version: '6.7'
+version: '7.0'
 main: com.caltr.ricer.Ricer
 api-version: '1.20'
 depend: [ProtocolLib]
@@ -7,9 +7,17 @@ permissions:
   ricer.items:
     description: Allows the user to run the item command.
     default: op
+  ricer.df:
+    description: Allows the user to run some exclusive commands.
+    default: op
 commands:
   item:
     description: lifter - gives you custom items in Ricer
     usage: /item <item>
     permission: ricer.items
     permission-message: You don't have sufficient permissions to run this command!
+  hurt-shake:
+    description: Hurt Shake Effect - plays a Hurt packet to the client.
+    usage: /hurt-shake
+    permissions: ricer.df
+    permission-message: You don't have Ricer.DF (default OP) permissions to run this command!
