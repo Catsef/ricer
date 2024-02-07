@@ -44,6 +44,7 @@ public final class Ricer extends JavaPlugin implements Listener {
     public static Random rd;
 
     public static Plugin plugin;
+    public static ArrayList<Block> blocks = new ArrayList<>();
 
     public static double absoluteDamage (Player player, double damage, boolean ignoreArmor) {
 
@@ -112,6 +113,9 @@ public final class Ricer extends JavaPlugin implements Listener {
         // Plugin startup logic
         rd = new Random();
         getServer().getPluginManager().registerEvents(this, this);
+        if (this.getConfig().contains("block")) {
+            restoreBlock();
+        }
 
         this.getCommand("item").setExecutor(new itemCommand());
         this.getCommand("item").setTabCompleter(new autoComplete());
@@ -130,6 +134,21 @@ public final class Ricer extends JavaPlugin implements Listener {
 
         armorCompensation.setupArmorValues();
     }
+
+    public void saveBlocks () {
+        for (Block block: blocks) {
+            this.getConfig().set("block", block);
+        }
+        this.saveConfig();
+    }
+
+    public void restoreBlock () {
+        this.getConfig().getConfigurationSection("block").getKeys(false).forEach(block -> {
+            Block i = (Block) this.getConfig().get("block." + block);
+            blocks.add(i);
+        });
+    }
+
 
     @EventHandler
     public void onPlayerJoin(PlayerJoinEvent event) {
@@ -414,7 +433,10 @@ public final class Ricer extends JavaPlugin implements Listener {
 
     @Override
     public void onDisable() {
-        // Plugin shutdown logic
+        // Plugin shutdown logic\
+        if (!blocks.isEmpty()) {
+            saveBlocks();
+        }
         l.cancel();
         f.cancel();
     }
